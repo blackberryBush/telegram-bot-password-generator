@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+    container_name: app
+    restart: on-failure
+    depends_on:
+      - db
+    environment:
+      DB_PASSWORD: "password"
+      DB_HOST: db
+      DB_USER: "root"
+      DB_PORT: 3306
+
+  db:
+    restart: always
+    image: mysql:latest
+    container_name: database
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+
+volumes:
+  db-data:
+   driver: local
