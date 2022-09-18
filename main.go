@@ -2,6 +2,7 @@ package main
 
 import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"github.com/spf13/viper"
 	"log"
 	"strconv"
 	"time"
@@ -10,8 +11,13 @@ import (
 // Тестами не покрывал
 // В обработку ошибок не вдавался, всё просто летит в лог
 
-func token() string {
-	return "5764246376:AAFQNHlXzHbLt8q79N4NDtFrmk_dM-76gzM"
+func getToken() string {
+	viper.SetConfigName("token")
+	viper.AddConfigPath(".")
+	if err := viper.ReadInConfig(); err != nil {
+		return ""
+	}
+	return viper.GetString("token")
 }
 
 func (b *Bot) showOptions(chatID int64, replyText string) {
@@ -86,7 +92,7 @@ func (b *Bot) Run() {
 }
 
 func main() {
-	botAPI, err := tgbotapi.NewBotAPI(token())
+	botAPI, err := tgbotapi.NewBotAPI(getToken())
 	if err != nil {
 		log.Fatal(err)
 	}
