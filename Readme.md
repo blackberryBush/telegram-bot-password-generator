@@ -1,0 +1,1 @@
+This is a Telegram bot that generates a password with the specified parameters at the user's request
